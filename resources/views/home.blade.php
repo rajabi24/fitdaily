@@ -18,7 +18,7 @@
         Pantau jadwal latihan dan menu makan sehatmu setiap hari. <span class="text-blue-600 font-semibold">Konsisten adalah kunci.
     </p>
     <div class="flex justify-center gap-4">
-        <a href="/meals" class="inline-flex items-center gap-2 bg-white text-blue-600 font-semibold px-8 py-3 rounded-xl transition-all duration-300 border-2 border-blue-600 hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-200 shadow-sm">
+        <a href="/workouts" class="inline-flex items-center gap-2 bg-white text-blue-600 font-semibold px-8 py-3 rounded-xl transition-all duration-300 border-2 border-blue-600 hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-200 shadow-sm">
             <i data-lucide="dumbbell" class="w-5 h-5"></i>
             Lihat Jadwal Latihan
         </a>
