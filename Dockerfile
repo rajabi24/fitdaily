@@ -2,7 +2,8 @@ FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libpng-dev libonig-dev libxml2-dev nodejs npm \
-    && docker-php-ext-install pdo pdo_mysql mbstring xml
+    && docker-php-ext-install pdo pdo_mysql mbstring xml \
+    && a2enmod rewrite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -15,9 +16,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
