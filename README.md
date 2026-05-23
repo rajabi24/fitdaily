@@ -2,7 +2,6 @@
 
 Aplikasi web berbasis Laravel MVC untuk memantau jadwal latihan dan menu makan harian.
 
-## Identitas
 - **Nama:** Muhammad Riskan Rajabi
 - **NIM:** 2408107010110
 - **Mata Kuliah:** Pemrograman Berbasis Web

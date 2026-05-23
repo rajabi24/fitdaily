@@ -12,7 +12,7 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Jadwal Latihan</h1>
-            <p class="text-slate-500">Program latihan mingguan — konsisten adalah kunci perubahan.</p>
+            <p class="text-slate-500">Program latihan mingguan <span class="text-blue-600 font-semibold">konsisten adalah kunci perubahan.</p>
         </div>
         <a href="/workouts/create" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl transition shadow-md shadow-blue-200">
             <i data-lucide="plus" class="w-5 h-5"></i> Tambah Latihan
