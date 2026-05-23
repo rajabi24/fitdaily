@@ -4,11 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\MealSchedule;
+use App\Models\WorkoutSchedule;
 
 class MealScheduleSeeder extends Seeder
 {
     public function run(): void
     {
+        $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+
         $meals = [
             // SENIN (Gym)
             ['day' => 'Senin', 'meal_type' => 'Sarapan', 'menu_name' => '2 Butir Telur', 'calories' => 150, 'protein' => '12g', 'carbs' => '1g', 'description' => 'Rebus atau goreng rendah minyak.'],
@@ -51,7 +54,17 @@ class MealScheduleSeeder extends Seeder
         ];
 
         foreach ($meals as $meal) {
-            MealSchedule::create($meal);
+            $workout = WorkoutSchedule::where('day', $meal['day'])->first();
+            MealSchedule::create([
+                'workout_schedule_id' => $workout ? $workout->id : null,
+                'day'         => $meal['day'],
+                'meal_type'   => $meal['meal_type'],
+                'menu_name'   => $meal['menu_name'],
+                'calories'    => $meal['calories'],
+                'protein'     => $meal['protein'],
+                'carbs'       => $meal['carbs'],
+                'description' => $meal['description'],
+            ]);
         }
     }
 }

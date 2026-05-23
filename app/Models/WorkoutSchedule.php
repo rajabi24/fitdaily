@@ -14,4 +14,9 @@ class WorkoutSchedule extends Model
         'intensity',
         'description',
     ];
+
+    public function meals()
+    {
+        return $this->hasMany(MealSchedule::class);
+    }
 }

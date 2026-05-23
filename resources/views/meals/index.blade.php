@@ -9,27 +9,47 @@
     <a href="/" class="inline-flex items-center gap-1.5 text-slate-400 hover:text-blue-600 text-sm transition mb-4">
         <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
     </a>
-    <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Menu Makanan</h1>
-    <p class="text-slate-500">Jadwal makan harian untuk mendukung program diet & gym kamu.</p>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-2">Menu Makanan</h1>
+            <p class="text-slate-500">Jadwal makan harian untuk mendukung program diet & gym kamu.</p>
+        </div>
+        <a href="/meals/create" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl transition shadow-md shadow-blue-200">
+            <i data-lucide="plus" class="w-5 h-5"></i> Tambah Menu
+        </a>
+    </div>
 </div>
+
+{{-- Success Message --}}
+@if(session('success'))
+    <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl p-4 mb-6 fade-in flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        {{ session('success') }}
+    </div>
+@endif
 
 {{-- Meal Cards per Hari --}}
 @foreach($meals as $day => $dayMeals)
-@php $loopIndex = $loop->index; @endphp
     @php
         $totalCalories = $dayMeals->sum('calories');
         $totalProtein = $dayMeals->sum(fn($m) => (int) $m->protein);
         $totalCarbs = $dayMeals->sum(fn($m) => (int) $m->carbs);
+        $workout = $dayMeals->first()->workout;
     @endphp
 
-    <div class="mb-10 fade-in-delay-{{ min($loop->index + 1, 3) }}">
+    <div class="mb-10">
         {{-- Day Header --}}
         <div class="flex flex-wrap items-center justify-between mb-4 gap-3">
             <div class="flex items-center gap-2">
                 <div class="bg-blue-50 p-2 rounded-lg">
                     <i data-lucide="calendar-days" class="w-5 h-5 text-blue-600"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-800">{{ $day }}</h2>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">{{ $day }}</h2>
+                    @if($workout)
+                        <span class="text-sm font-medium text-blue-500">{{ $workout->exercise_name }}</span>
+                    @endif
+                </div>
             </div>
             <div class="flex gap-2 flex-wrap">
                 <span class="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-600 text-xs font-semibold px-3 py-1.5 rounded-full">
@@ -94,7 +114,7 @@
                     <p class="text-slate-400 text-xs mb-4 leading-relaxed">{{ $meal->description }}</p>
 
                     {{-- Nutrition Stats --}}
-                    <div class="border-t border-slate-100 pt-3 grid grid-cols-3 gap-2 text-center">
+                    <div class="border-t border-slate-100 pt-3 grid grid-cols-3 gap-2 text-center mb-4">
                         <div>
                             <div class="text-red-500 font-bold text-sm">{{ $meal->calories }}</div>
                             <div class="text-slate-400 text-xs">kkal</div>
@@ -108,12 +128,25 @@
                             <div class="text-slate-400 text-xs">karbo</div>
                         </div>
                     </div>
+
+                    {{-- Action Buttons --}}
+                    <div class="flex gap-2">
+                        <a href="/meals/{{ $meal->id }}/edit" class="flex-1 text-center bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold py-1.5 rounded-lg transition inline-flex items-center justify-center gap-1">
+                            <i data-lucide="pencil" class="w-3 h-3"></i> Edit
+                        </a>
+                        <form action="/meals/{{ $meal->id }}" method="POST" class="flex-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Yakin hapus menu ini?')" class="w-full bg-red-50 hover:bg-red-100 text-red-500 text-xs font-semibold py-1.5 rounded-lg transition inline-flex items-center justify-center gap-1">
+                                <i data-lucide="trash-2" class="w-3 h-3"></i> Hapus
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @endforeach
         </div>
     </div>
 
-    {{-- Divider --}}
     @if(!$loop->last)
         <hr class="border-slate-200 mb-10">
     @endif
